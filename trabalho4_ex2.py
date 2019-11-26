@@ -61,49 +61,64 @@ def tangent(c):
         return tan(c)
 
 
-def bisection2(f,a,b,N):
+def bisection(f,a,b,N):
+  
+    if f(a)*f(b) >= 0:
+        return None
+    a_n = a
+    b_n = b
+    for n in range(1,N+1):
+        m_n = (a_n + b_n)/2
+        f_m_n = f(m_n)
+        if f(a_n)*f_m_n < 0:
+            a_n = a_n
+            b_n = m_n
+        elif f(b_n)*f_m_n < 0:
+            a_n = m_n
+            b_n = b_n
+        elif f_m_n == 0:
+            return m_n
+        elif abs(f_m_n) <= 0.001:
+            return m_n
+        else:
+            return None
+    return (a_n + b_n)/2
 
-    v = (b-a)/2.0
-    y = f(v).real
-    if abs(y) <= 0.001 :
-        return v
-    else:
-        if y > 0:
-            return bisection(f, a, v, N)
-        else :
-            return bisection(f, v, b, N)
-
-def bisection(f, a, b, tol):
-    c = (a+b)/2.0
-    while (b-a)/2.0 > tol:
-        if abs(f(c)) < 0.001:
-            return c
-        elif f(a)*f(c) < 0:
-            b = c
-        else :
-            a = c
-        c = (a+b)/2.0
-        
-    return c
-
-raizes = [0.0,
- 5.08379754599182e-20
-,5.096615188717296e-20
-,2.0336792389307965e-19
-,4.567566985223284e-19
-,8.089694985649952e-19
-,1.257538927796426e-18
-,1.796665002883343e-18
-,2.4142350514501716e-18
-,3.065643676812256e-18
+#Pontos para busca binária obtidos através do gráfico gerado por trabalho4_ep1.py
+raizes = [
+5.1e-21
+,1.21e-19
+,3.0e-19
+,5.8e-19
+,9.8e-19
+,1.4e-18
+,2.0e-18
+,2.8e-18
+,3.3e-18
+,4.0e-18,
 ]
+
+
 a = 0.0
 b = raizes[0]
-for i in range(len(raizes) - 1):
-    a = raizes[i]* 1.5
-    b = (raizes[i+1])* 1.5
-    r = bisection(lambda x: F_e(i)(x).real,a,b, 0.00001)
-    print(raizes[i], "{:.3}".format(raizes[i]/eV),  r, "{:.3}".format(r/eV))
+n = 1
+print(80*"-")
+print("Usando busca binária achamos as seguintes raízes")
+print(80*"-")
+print("N\tEnergia (J)\t\tEnergia (eV)")
+for i in range(len(raizes) - 2):
+    a = raizes[i]
+    
+    b = (raizes[i+1])
+    r = bisection(lambda x: F_e(0)(x).real,a,b, 8000)
+    if r is None:
+        r = bisection(lambda x: F_e(1)(x).real,a,b, 8000)
+    
+    if r is not None:
+        
+        print("n= {}\t{}\t\t{:.2f}eV ".format(n, r, r/eV))
+        n = n+1
+    #print(raizes_originais[i], "{:.3}".format(raizes_originais[i]/eV),  r, "{:.3}".format(r/eV))
     a = raizes[i]
     b = raizes[i+1]
 

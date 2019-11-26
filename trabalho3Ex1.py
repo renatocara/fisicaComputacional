@@ -57,7 +57,7 @@ def gaussxwab(N,a,b):
 Interal por Gauss
 '''
 
-def gaussQuad(f,a,b, N=4):
+def gaussQuad(f,a,b, N=8):
     x,w = gaussxwab(N, a, b)
     s = 0.0
     for k in range(N):
@@ -68,7 +68,7 @@ def gaussQuad(f,a,b, N=4):
 '''
 Interal por Simpson
 '''
-def simps(f,a,b,N=100):
+def simps(f,a,b,N=200):
    
     if N % 2 == 1:
         raise ValueError("N deve ser par.")
@@ -80,21 +80,6 @@ def simps(f,a,b,N=100):
 
 
 '''
-Teste
-
-
-
-def func(x):
-    return 4*2**x + cos(x) * exp(2*x)
-    
-print( trapezoidal(func, 0, 1, 1000))
-
-print(simps(func, 0, 1, 1000))
-
-print(gaussQuad(func, 0, 1, 4))
-'''
-
-'''
 Principal
 '''
 
@@ -104,36 +89,29 @@ def k(lbda):
 def J_int(m, x ):
     return lambda th: cos(m*th - x*sin(th))
 
-def J(m, intMethod=simps):
-    return lambda x: (1/math.pi) * intMethod(J_int(m, x), 0.0, math.pi)
+def J(m, intMethod=simps, N=200):
+    return lambda x: (1/math.pi) * intMethod(J_int(m, x), 0.0, math.pi, N)
 
 def I(r):
-    return (J(1)(k(lamb)*r)/k(lamb)*r)**2
+    return (J(1)(k(lamb)*r)/(k(lamb)*r))**2
 
 def itemA():
-    for m in range(1):
+    for m in range(3):
         x = linspace(0, 20, 100)
-        J_m_simp = J(m, simps)
-        J_m_qg = J(m, gaussQuad)
+        J_m_simp = J(m, simps, 1000)
+        J_m_qg = J(m, gaussQuad, 100)
         y_Simp = list(map(J_m_simp, x))
         y_GQ = list(map(J_m_qg, x))
         plt.plot(x,y_Simp, label='J_{} Simpson'.format(m))
-        plt.plot(x, y_GQ, label='J_{} Quad. Gaussiana'.format(m))
+        plt.plot(x, y_GQ, label='J_{} Quad. Gauss '.format(m))
 
     plt.xlabel('X')
-    plt.ylabel('J_m(x)')
+    plt.ylabel('Jₘ(x)')
 
-    plt.title("Simple Plot")
+    plt.title("Funções de Bessel por duas diferentes formas de integração")
 
     plt.legend()
 
     plt.show()
 
-def itemB():
-    x = linspace(-1000, 1000)
-    y = linspace(-1000, 1000)
-    plt.scatter(x, y)
-
-
-#itemA()
-itemB()
+itemA()
