@@ -1,4 +1,10 @@
 
+'''
+4300218-2019 - EP 4 b)
+Escreva um segundo programa em Python que calcule os seis primeiros níveis de
+energia usando busca binária com uma precisão de 0,001 eV
+
+'''
 from math import tan, sqrt, pi, atan, sin, sinh, cos, cosh
 import matplotlib.pyplot as plt
 import numpy as np
@@ -61,7 +67,7 @@ def tangent(c):
         return tan(c)
 
 
-def bisection(f,a,b,N):
+def busca_binaria(f,a,b,N):
   
     if f(a)*f(b) >= 0:
         return None
@@ -84,8 +90,9 @@ def bisection(f,a,b,N):
             return None
     return (a_n + b_n)/2
 
-#Pontos para busca binária obtidos através do gráfico gerado por trabalho4_ep1.py
-raizes = [
+#Pontos para busca binária obtidos através do 
+#gráfico gerado por trabalho4_ex1_graficos_e_estimativas.py
+raizes_poco_1_nm = [
 5.1e-21
 ,1.21e-19
 ,3.0e-19
@@ -98,21 +105,44 @@ raizes = [
 ,4.0e-18,
 ]
 
+raizes_poco_meio_nm = [
+9.0e-20
+,4.3e-19
+,1.18e-18
+,2.18e-18
+,3.8e-18
+]
 
+raizes_poco_V_40 = [
+2.6e-20
+,1.4e-19
+,3.4e-19
+,6.0e-19
+,1.13e-18
+,1.5e-18
+,2.3e-18
+,2.9e-18
+,3.8e-18
+
+]
+
+
+
+raizes = raizes_poco_V_40
 a = 0.0
 b = raizes[0]
 n = 1
 print(80*"-")
 print("Usando busca binária achamos as seguintes raízes")
 print(80*"-")
-print("N\tEnergia (J)\t\tEnergia (eV)")
+print("N\tEnergia (J)\t\t\tEnergia (eV)")
 for i in range(len(raizes) - 2):
     a = raizes[i]
     
     b = (raizes[i+1])
-    r = bisection(lambda x: F_e(0)(x).real,a,b, 8000)
+    r = busca_binaria(lambda x: F_e(0)(x).real,a,b, 10000)
     if r is None:
-        r = bisection(lambda x: F_e(1)(x).real,a,b, 8000)
+        r = busca_binaria(lambda x: F_e(1)(x).real,a,b, 10000)
     
     if r is not None:
         

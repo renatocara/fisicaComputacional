@@ -1,4 +1,16 @@
 
+__author__ = "Renat Cara - 9301579"
+__email__ = "renato.cara@usp.br"
+
+'''
+4300218-2019 - EP 4 a
+Faça um programa em Python que faça um gráfico das quantidades 
+tan√w²mEᵢ/2ℏ²  √(V-E)/E √E/(V-E) 
+Em função de E, para E variando de 0 a 30 eV. Do seu gráfico, faça estimativas
+visuais para os seis primeiros níveis de energia possíveis
+'''
+
+
 from math import tan, sqrt, pi, atan, sin, sinh, cos, cosh, nan
 import matplotlib.pyplot as plt
 import numpy as np
@@ -139,6 +151,3 @@ for n in range(len(roots_y)):
 print("*"*80)
 plt.show()
 
-
-for n in roots_x:
-    print(n)
